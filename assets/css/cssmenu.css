@@ -1,0 +1,222 @@
+/* Starter CSS for Menu */
+#cssmenu {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	width: auto;
+}
+#cssmenu ul,
+#cssmenu li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+#cssmenu ul {
+	position: relative;
+	z-index: 597;
+}
+#cssmenu ul li {
+	float: left;
+	min-height: 1px;
+	vertical-align: middle;
+}
+#cssmenu ul li.hover,
+#cssmenu ul li:hover {
+	position: relative;
+	z-index: 599;
+	cursor: default;
+}
+#cssmenu ul ul {
+	visibility: hidden;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 598;
+	width: 100%;
+}
+#cssmenu ul ul li {
+	float: none;
+}
+#cssmenu ul ul ul {
+	top: 0;
+	left: 190px;
+	width: 190px;
+}
+#cssmenu ul li:hover > ul {
+	visibility: visible;
+}
+#cssmenu ul ul {
+	bottom: 0;
+	left: 0;
+}
+#cssmenu ul ul {
+	margin-top: 0;
+}
+#cssmenu ul ul li {
+	font-weight: normal;
+}
+#cssmenu a {
+	display: block;
+	line-height: 1em;
+	text-decoration: none;
+}
+/* Custom CSS Styles */
+#cssmenu {
+	background: #1E73BE;
+	border-bottom: 4px solid #404040;
+	font-size: 14px;
+}
+#cssmenu > ul {
+	*display: inline-block;
+}
+#cssmenu:after,
+#cssmenu ul:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+#cssmenu ul {
+	text-transform: uppercase;
+}
+#cssmenu ul ul {
+	border-top: 4px solid #404040;
+	text-transform: none;
+	min-width: 190px;
+}
+#cssmenu ul ul a {
+	background: #404040;
+	color: #ffffff;
+	border: 1px solid #1E73BE;
+	border-top: 0 none;
+	line-height: 150%;
+	padding: 16px 20px;
+	font-size: 12px;
+}
+#cssmenu ul ul ul {
+	border-top: 0 none;
+}
+#cssmenu ul ul li {
+	position: relative;
+}
+#cssmenu ul ul li:first-child > a {
+	/* border-top: 1px solid #1E73BE; */
+}
+#cssmenu ul ul li:hover > a {
+	background: #4eb1ff;
+	color: #ffffff;
+}
+#cssmenu ul ul li:last-child > a {
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	-moz-box-shadow: 0 1px 0 #404040;
+	-webkit-box-shadow: 0 1px 0 #404040;
+	box-shadow: 0 1px 0 #404040;
+}
+#cssmenu ul ul li:last-child:hover > a {
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+}
+#cssmenu ul ul li.has-sub > a:after {
+	content: '+';
+	position: absolute;
+	top: 50%;
+	right: 15px;
+	margin-top: -8px;
+}
+#cssmenu ul li:hover > a,
+#cssmenu ul li.active > a {
+	background: #404040;
+	color: #ffffff;
+}
+#cssmenu ul li.has-sub > a:after {
+	content: '+';
+	margin-left: 5px;
+}
+#cssmenu ul li.last ul {
+	left: auto;
+	right: 0;
+}
+#cssmenu ul li.last ul ul {
+	left: auto;
+	right: 99.5%;
+}
+#cssmenu a {
+	background: #1E73BE;
+	color: #ffffff;
+	padding: 0 20px;
+}
+#cssmenu > ul > li > a {
+	line-height: 48px;
+	font-size: 1em;
+}
+
+/*
+
+// Penambahan Style Menu Others Walker Class
+add_action('wp_enqueue_scripts', 'cssmenumaker_scripts_styles' );
+function cssmenumaker_scripts_styles() {  
+	wp_enqueue_style( 'cssmenu-styles', get_stylesheet_directory_uri() . '/css/cssmenu.css');
+}
+
+class CSS_Menu_Maker_Walker extends Walker {
+
+	var $db_fields = array( 'parent' => 'menu_item_parent', 'id' => 'db_id' );
+
+	function start_lvl( &$output, $depth = 0, $args = array() ) {
+		$indent = str_repeat("\t", $depth);
+		$output .= "\n$indent<ul>\n";
+	}
+
+	function end_lvl( &$output, $depth = 0, $args = array() ) {
+		$indent = str_repeat("\t", $depth);
+		$output .= "$indent</ul>\n";
+	}
+
+	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+	
+		global $wp_query;
+		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
+		$class_names = $value = '';        
+		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
+	
+		/* Add active class */
+		if(in_array('current-menu-item', $classes)) {
+		$classes[] = 'active';
+		unset($classes['current-menu-item']);
+		}
+	
+		/* Check for children */
+		$children = get_posts(array('post_type' => 'nav_menu_item', 'nopaging' => true, 'numberposts' => 1, 'meta_key' => '_menu_item_menu_item_parent', 'meta_value' => $item->ID));
+		if (!empty($children)) {
+		$classes[] = 'has-sub';
+		}
+	
+		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
+		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
+	
+		$id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args );
+		$id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
+	
+		$output .= $indent . '<li' . $id . $value . $class_names .'>';
+	
+		$attributes  = ! empty( $item->attr_title ) ? ' title="'  . esc_attr( $item->attr_title ) .'"' : '';
+		$attributes .= ! empty( $item->target )     ? ' target="' . esc_attr( $item->target     ) .'"' : '';
+		$attributes .= ! empty( $item->xfn )        ? ' rel="'    . esc_attr( $item->xfn        ) .'"' : '';
+		$attributes .= ! empty( $item->url )        ? ' href="'   . esc_attr( $item->url        ) .'"' : '';
+	
+		$item_output = $args->before;
+		$item_output .= '<a'. $attributes .'><span>';
+		$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
+		$item_output .= '</span></a>';
+		$item_output .= $args->after;
+	
+		$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+	}
+
+	function end_el( &$output, $item, $depth = 0, $args = array() ) {
+		$output .= "</li>\n";
+	}
+}
+*/

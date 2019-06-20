@@ -2,6 +2,8 @@
 
 Please replace child theme name and directory name depends on what website you are using this. Thanks!
 
+Parent Themes WP Bootstrap Starter By Afterimage Designs : [WP Bootstrap Starter](https://wordpress.org/themes/wp-bootstrap-starter/)
+
 ----------
 06-04-2019
 ----------

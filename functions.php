@@ -10,10 +10,13 @@ function needed_styles_and_scripts_enqueue() {
 
     
     // Custom script
+    wp_enqueue_script( 'wow-custom-script', get_stylesheet_directory_uri() . '/assets/javascript/wow.js' , array( 'jquery' ) );
     wp_enqueue_script( 'wpbs-custom-script', get_stylesheet_directory_uri() . '/assets/javascript/script.js' , array( 'jquery' ) );
 
     // enqueue style
 	wp_enqueue_style( 'parent-style', get_template_directory_uri() . '/style.css' );
+	//animate.css
+	wp_enqueue_style( 'wow-animate', get_stylesheet_directory_uri() . '/assets/css/animate.css', array(), '1.0.0' );
 
 
 }
@@ -36,6 +39,46 @@ function site_year(){
     return $output;
 }
 add_shortcode( 'site_year', 'site_year' );
+
+// For Remove <br> in shortcode
+remove_filter( 'the_content', 'wpautop' );
+add_filter( 'the_content', 'wpautop' , 12);
+
+// Start History PT
+function history_title($atts, $content){
+	return '<div class="page-header">
+				<h1 id="timeline">'.do_shortcode($content).'</h1>
+			</div>';
+}
+add_shortcode('history_title', 'history_title');
+
+function history_head($atts, $content){
+	$output = '<ul class="timeline">'.do_shortcode($content).'</ul>';
+	return $output;
+}
+add_shortcode('history_header', 'history_head');
+
+function history_content_pt( $atts, $content = null ) {
+	$a = shortcode_atts( array(
+			'year' => '',
+			'icon' => '',
+			'seconds' => '',
+	), $atts );
+	
+	$output = '<li id="timeline-inverted" class="wow slideInRight" data-wow-duration="'.esc_attr($a['seconds']).'">
+		  <div class="timeline-badge info"><i class="'.esc_attr($a['icon']).'"></i></div>
+		  <div class="timeline-panel">
+			<div class="timeline-heading">
+			  <h2 class="timeline-title">'.esc_attr($a['year']).'</h2>
+			</div>
+			<div class="timeline-body">
+			  <p>'.$content.'</p>
+			</div>
+		  </div>
+		</li>';
+	return $output;
+}
+add_shortcode( 'history_content', 'history_content_pt' );
 
 // The excerpt count
 function custom_letter_count($content, $limit) {
@@ -145,8 +188,8 @@ function remove_core_updates(){
     }
 }
 add_filter('pre_site_transient_update_core','remove_core_updates'); //hide updates for WordPress itself
-add_filter('pre_site_transient_update_plugins','remove_core_updates'); //hide updates for all plugins
-add_filter('pre_site_transient_update_themes','remove_core_updates'); //hide updates for all themes
+// add_filter('pre_site_transient_update_plugins','remove_core_updates'); //hide updates for all plugins
+// add_filter('pre_site_transient_update_themes','remove_core_updates'); //hide updates for all themes
 
 function admin_hide_help() { 
     $screen = get_current_screen();

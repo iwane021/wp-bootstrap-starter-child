@@ -19,7 +19,7 @@
 				// Acara -> Category ID : 5
 				$args = array(
 					'post_status' => 'publish',
-					'cat' => 4,
+					'cat' => 5,
 					'posts_per_page' => 3
 					);
 				

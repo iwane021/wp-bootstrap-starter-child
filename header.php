@@ -22,39 +22,41 @@
 
 <body <?php body_class(); ?>>
 <div id="page" class="site">
-	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'wp-bootstrap-starter' ); ?></a>
-    <?php if(!is_page_template( 'blank-page.php' ) && !is_page_template( 'blank-page-with-container.php' )): ?>
-	<header id="masthead" class="site-header navbar-static-top <?php echo wp_bootstrap_starter_bg_class(); ?>" role="banner">
-        <div class="container">
-            <nav class="navbar navbar-expand-xl p-0">
-                <div class="navbar-brand">
-                    <?php if ( get_theme_mod( 'wp_bootstrap_starter_logo' ) ): ?>
-                        <a href="<?php echo esc_url( home_url( '/' )); ?>">
-                            <img src="<?php echo esc_attr(get_theme_mod( 'wp_bootstrap_starter_logo' )); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
-                        </a>
-                    <?php else : ?>
-                        <a class="site-title" href="<?php echo esc_url( home_url( '/' )); ?>"><?php esc_url(bloginfo('name')); ?></a>
-                    <?php endif; ?>
+	<div id="subnav2">
+		<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'wp-bootstrap-starter' ); ?></a>
+		<?php if(!is_page_template( 'blank-page.php' ) && !is_page_template( 'blank-page-with-container.php' )): ?>
+		<header id="masthead" class="site-header navbar-static-top <?php echo wp_bootstrap_starter_bg_class(); ?>" role="banner">
+			<div class="container">
+				<nav class="navbar navbar-expand-xl p-0">
+					<div class="navbar-brand">
+						<?php if ( get_theme_mod( 'wp_bootstrap_starter_logo' ) ): ?>
+							<a href="<?php echo esc_url( home_url( '/' )); ?>">
+								<img src="<?php echo esc_attr(get_theme_mod( 'wp_bootstrap_starter_logo' )); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
+							</a>
+						<?php else : ?>
+							<a class="site-title" href="<?php echo esc_url( home_url( '/' )); ?>"><?php esc_url(bloginfo('name')); ?></a>
+						<?php endif; ?>
 
-                </div>
+					</div>
 
-            </nav>
-        </div>
-	</header><!-- #masthead -->
+				</nav>
+			</div>
+		</header><!-- #masthead -->
 
-    <div id="subnav">
-        <div class="container">
-            <nav id="main-navigation" class="primary-navigation navigation clearfix" role="navigation">
-            <?php
-                wp_nav_menu( array( 
-                'theme_location'  => 'primary',
-                'menu_class'      => 'nav main-navigation-menu',
-                'container'       => false
-                ) );
-            ?>
-            </nav>
-        </div>
-    </div>
+		<div id="subnav">
+			<div class="container">
+				<nav id="main-navigation" class="primary-navigation navigation clearfix" role="navigation">
+				<?php
+					wp_nav_menu( array( 
+					'theme_location'  => 'primary',
+					'menu_class'      => 'nav main-navigation-menu',
+					'container'       => false
+					) );
+				?>
+				</nav>
+			</div>
+		</div>
+	</div>
     
     <?php if(is_front_page() && !get_theme_mod( 'header_banner_visibility' )): ?>
         <div id="page-sub-header" <?php if(has_header_image()) { ?>style="background-image: url('<?php header_image(); ?>');" <?php } ?>>

@@ -7,18 +7,26 @@ jQuery(function($) {
     	$(window).scroll(function () {
     		var navbar = document.getElementById("subnav").offsetTop;
     		if ($(window).scrollTop() > navbar) {
-				$('#subnav').addClass('navbar-fixed');
+				$('#subnav2').addClass('navbar-fixed');
 			}
 			else {
-				$('#subnav').removeClass('navbar-fixed');
+				$('#subnav2').removeClass('navbar-fixed');
 			}
 		});
     });
 
     // Run the script once the window finishes loading
     $(window).load(function(){
-        
+        wow = new WOW(
+			{
+			  boxClass:     'wow',      // default
+			  animateClass: 'animated', // default
+			  offset:       100,
+			  mobile:       true,       // default
+			  live:         true        // default
+			}
+		)
+		wow.init();
     });
-
 
 });
